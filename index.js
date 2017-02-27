@@ -18,11 +18,13 @@ const TEMPLATES = {
 
 if (process.argv.length <= 2) {
     const path = process.argv[1].split("/");
-    console.log("Usage: node " + _.last(path) + " <out-dir>");
+    console.log("Usage: node " + _.last(path) + " <out-dir> [timespan in sec]");
     process.exit(1);
 }
 
 const OUT_DIR = process.argv[2]
+const TIMESPAN = parseInt(process.argv[3]) * 1000
+
 if (!fs.existsSync(OUT_DIR)) {
     fs.mkdirSync(OUT_DIR);
 }
@@ -36,7 +38,19 @@ MongoClient.connect(DB_URL).then((db) => {
     process.stdout.write("Fetching data");
 
     return new Promise(resolve => {
-        const stream = prof.find().stream();
+        const arg = {
+            "query.find": {
+                $ne: "system.profile"
+            }
+        }
+
+        if (TIMESPAN) {
+            arg["ts"] = {
+                $gt: new Date(new Date().getTime() - TIMESPAN),
+            }
+        }
+
+        const stream = prof.find(arg).stream();
         
         const res = []
 
@@ -55,22 +69,21 @@ MongoClient.connect(DB_URL).then((db) => {
     console.log()
     process.stdout.write("Writing Files");
 
-    queries = _.sortBy(queries, q => q.nreturned - q.docsExamined).map(q => {
-        q.tsstr = JSON.stringify(q.ts)
-    })
+    queries = _.sortBy(queries, q => q.nreturned - q.docsExamined)
 
     const idxFile = OUT_DIR + "/index.html"
+    for (const q of queries) {
+        q.raw = JSON.stringify(q, null, 4);
+        q.tsstr = JSON.stringify(q.ts)
+        fs.writeFileSync(`${OUT_DIR}/${q.tsstr}.html`, Mustache.render(TEMPLATES.detail, q));
+        process.stdout.write(".");
+    }
+    
     fs.writeFileSync(idxFile, Mustache.render(TEMPLATES.index, {
         queries: queries
     }));
 
     process.stdout.write(".");
-
-    for (const q of queries) {
-        q.raw = JSON.stringify(q, null, 4);
-        fs.writeFileSync(`${OUT_DIR}/${q.tsstr}.html`, Mustache.render(TEMPLATES.detail, q));
-        process.stdout.write(".");
-    }
 
     console.log();
     console.log(`Open: sensible-browser file://${path.resolve(idxFile)}`)
