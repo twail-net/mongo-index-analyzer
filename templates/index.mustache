@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Index Stats</title>
+    </head>
+    <body>
+        <h1>Index Stats</h1>
+        <ul>
+            {{#queries}}
+            <li>
+                <a href="{{ns}}.html">{{ns}}</a> ({{nreturned}} / {{docsExamined}})
+            </li>
+            {{/queries}}
+        </ul>
+    </body>
+</html>
