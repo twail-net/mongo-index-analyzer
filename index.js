@@ -55,7 +55,9 @@ MongoClient.connect(DB_URL).then((db) => {
     console.log()
     process.stdout.write("Writing Files");
 
-    queries = _.sortBy(queries, q => q.nreturned - q.docsExamined)
+    queries = _.sortBy(queries, q => q.nreturned - q.docsExamined).map(q => {
+        q.tsstr = JSON.stringify(q.ts)
+    })
 
     const idxFile = OUT_DIR + "/index.html"
     fs.writeFileSync(idxFile, Mustache.render(TEMPLATES.index, {
@@ -66,7 +68,7 @@ MongoClient.connect(DB_URL).then((db) => {
 
     for (const q of queries) {
         q.raw = JSON.stringify(q, null, 4);
-        fs.writeFileSync(`${OUT_DIR}/${q.ts}.html`, Mustache.render(TEMPLATES.detail, q));
+        fs.writeFileSync(`${OUT_DIR}/${q.tsstr}.html`, Mustache.render(TEMPLATES.detail, q));
         process.stdout.write(".");
     }
 
