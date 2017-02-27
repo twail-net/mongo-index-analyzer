@@ -66,7 +66,7 @@ MongoClient.connect(DB_URL).then((db) => {
 
     for (const q of queries) {
         q.raw = JSON.stringify(q, null, 4);
-        fs.writeFileSync(`${OUT_DIR}/${q.ns}.html`, Mustache.render(TEMPLATES.detail, q));
+        fs.writeFileSync(`${OUT_DIR}/${q.ts}.html`, Mustache.render(TEMPLATES.detail, q));
         process.stdout.write(".");
     }
 
