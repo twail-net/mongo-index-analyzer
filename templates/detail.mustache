@@ -1,11 +1,19 @@
 <html>
     <head>
-        <title>Index Stats / {{query.find}}</title>
+        <title>Index Stats / {{collection}}</title>
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <h1>Detail: {{query.find}}</h1>
-        <h4>{{nreturned}} / {{docsExamined}}</h4>
+        <h1>Detail: {{collection}}</h1>
+        <p>
+        <b>Average Score: <span class="avgScore">{{avgScore}}</span></b>
+        <br />
+        <b>Median Score: <span class="medianScore">{{medianScore}}</span></b>
+        <br />
+        <b>Range: [{{minScore}}, {{maxScore}}]</b>
+        {{#requests}}
         <hr />
         <pre>{{raw}}</p>
+        {{/requests}}
     </body>
 </html>

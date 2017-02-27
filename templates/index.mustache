@@ -1,15 +1,16 @@
 <html>
     <head>
         <title>Index Stats</title>
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
         <h1>Index Stats</h1>
         <ul>
-            {{#queries}}
+            {{#requestGroups}}
             <li>
-                <a href="{{tsstr}}.html">{{query.find}}</a> ({{nreturned}} / {{docsExamined}})
+                <a href="{{queryHash}}.html">{{collection}}</a> (<span class="avgScore">{{avgScore}}</span>, <span class="medianScore">{{medianScore}}</span>)
             </li>
-            {{/queries}}
+            {{/requestGroups}}
         </ul>
     </body>
 </html>
