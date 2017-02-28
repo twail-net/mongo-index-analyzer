@@ -84,7 +84,7 @@ class Request {
     }
 
     get isIndexed() {
-        return this.docsExamined !== this.nreturned
+        return this.docsExamined === this.nreturned
     }
 
     get nreturned() {
@@ -214,7 +214,7 @@ MongoClient.connect(DB_URL).then((db) => {
         stream.on("data", (q) => {
             process.stdout.write(".");
             const r = new Request(q);
-            if (r.isIndexed) {
+            if (!r.isIndexed) {
                 const h = r.queryHash;
                 res[h] = res[h] || new RequestGroup()
                 res[h].push(r)
