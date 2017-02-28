@@ -69,7 +69,14 @@ class Request {
                 this.qHash += k + q.sort[k]
             }
 
-            this.qHash += hashQuery(q.filter)
+            const h = hashQuery(q.filter);
+
+            // dashboard requests without a filter
+            if (h === "") {
+                return null;
+            }
+
+            this.qHash += h
         } else if (this.json.op === "command") {
             if (!this.json.command.query || this.json.command.count) {
                 return null;
