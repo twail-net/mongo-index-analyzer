@@ -173,6 +173,10 @@ class RequestGroup {
     get containsCollScan() {
         return _.some(this.requests, r => r.containsCollScan)
     }
+
+    get size() {
+        return this.requests.length
+    }
 }
 
 // Connect to the db

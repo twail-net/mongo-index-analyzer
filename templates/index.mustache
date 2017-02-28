@@ -10,7 +10,8 @@
         <table class="hor-minimalist-b">
             <thead>
                 <tr>
-                    <th scope="col">Request Group</th>
+                    <th scope="col">Requests</th>
+                    <th scope="col">Collection</th>
                     <th scope="col">Filter Attrs</th>
                     <th scope="col">Last Occurrence</th>
                     <th scope="col">Avg Score</th>
@@ -21,6 +22,7 @@
             <tbody>
                 {{#requestGroups}}
                 <tr>
+                    <td>{{size}}</td>
                     <td><a href="{{queryHash}}.html">{{collection}}</a></td>
                     <td>{{filterAttrs}}</td>
                     <td class="timestamp">{{lastOccurrence}}</td>
