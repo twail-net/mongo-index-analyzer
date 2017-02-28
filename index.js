@@ -71,9 +71,14 @@ class Request {
 
             this.qHash += hashQuery(q.filter)
         } else if (this.json.op === "command") {
+            if (!this.json.command.query || this.json.command.count) {
+                return null;
+            }
             this.qHash += hashQuery(this.json.command.query)
         } else if (this.json.op === "update") {
             this.qHash += hashQuery(this.json.query)
+        } else if (this.json.op === "insert" || this.json.op === "remove") {
+            return null;
         } else {
             console.error(this.json)
             this.qHash += (i++)
@@ -214,8 +219,8 @@ MongoClient.connect(DB_URL).then((db) => {
         stream.on("data", (q) => {
             process.stdout.write(".");
             const r = new Request(q);
-            if (!r.isIndexed) {
-                const h = r.queryHash;
+            const h = r.queryHash;
+            if (h) {
                 res[h] = res[h] || new RequestGroup()
                 res[h].push(r)
             }
@@ -229,7 +234,7 @@ MongoClient.connect(DB_URL).then((db) => {
     console.log()
     process.stdout.write("Writing Files");
 
-    const requestGroups = _.sortBy(Object.keys(queries).map(k => queries[k]), rg => rg.avgScore)
+    const requestGroups = _.sortBy(Object.keys(queries).map(k => queries[k]).filter(k => k.avgScore !== 0), rg => rg.avgScore)
 
     const idxFile = OUT_DIR + "/index.html"
     for (const rg of requestGroups) {
