@@ -8,25 +8,22 @@ const _ = require("lodash");
 const Mustache = require("mustache");
 const path = require("path");
 
-// const DB = "hireme-demo"
-// const DB_URL = "mongo mongodb://hireme:fawcaukwen0Shnupperk@ds021046.mlab.com:21046/hireme-demo"
-
-const DB = "hireme-dev"
-const DB_URL = "mongodb://hireme:SehrGeheim@ds029655.mlab.com:29655/hireme-dev"
-
 const TEMPLATES = {
     index: fs.readFileSync(__dirname + '/templates/index.mustache', { encoding: "utf8" }),
     detail: fs.readFileSync(__dirname + '/templates/detail.mustache', { encoding: "utf8" }),
 }
 
-if (process.argv.length <= 2) {
+if (process.argv.length <= 3) {
     const path = process.argv[1].split("/");
-    console.log("Usage: node " + _.last(path) + " <out-dir> [timespan in sec]");
+    console.log("Usage: node " + _.last(path) + " <mongo-url> <out-dir> [timespan in sec]");
     process.exit(1);
 }
 
-const OUT_DIR = process.argv[2]
-const TIMESPAN = parseInt(process.argv[3]) * 1000
+const DB_URL = process.argv[2]
+const OUT_DIR = process.argv[3]
+const TIMESPAN = parseInt(process.argv[4]) * 1000
+
+const DB = _.last(DB_URL.split("/"))
 
 if (!fs.existsSync(OUT_DIR)) {
     fs.mkdirSync(OUT_DIR);
