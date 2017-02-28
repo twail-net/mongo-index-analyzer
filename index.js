@@ -170,8 +170,12 @@ class RequestGroup {
         return _.min(this.requests.map(r => r.ts));
     }
 
-    get containsCollScan() {
-        return _.some(this.requests, r => r.containsCollScan)
+    get someCollScan() {
+        return _.some(this.requests, r => r.containsCollScan) && !this.allCollScan
+    }
+
+    get allCollScan() {
+        return _.reduce(this.requests, (a, r) => a && r.containsCollScan, true)
     }
 
     get size() {
@@ -191,8 +195,10 @@ MongoClient.connect(DB_URL).then((db) => {
         const arg = {
             "ns": {
                 $ne: DB + ".system.profile"
+            },
+            "op": {
+                $ne: "getmore"
             }
-
         }
 
         if (TIMESPAN) {

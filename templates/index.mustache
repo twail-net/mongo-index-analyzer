@@ -28,10 +28,17 @@
                     <td class="timestamp">{{lastOccurrence}}</td>
                     <td class="avgScore">{{avgScore}}</td>
                     <td class="medianScore">{{medianScore}}</td>
-                    <td><input type="checkbox" disabled {{#containsCollScan}}checked{{/containsCollScan}} /></td>
+                    <td><input id="collscancb{{queryHash}}" type="checkbox" disabled {{#allCollScan}}checked{{/allCollScan}} /></td>
                 </tr>
                 {{/requestGroups}}
             </tbody>
         </table>
+        <script>
+            {{#requestGroups}}
+            {{#someCollScan}}
+            document.getElementById("collscancb{{queryHash}}").indeterminate = true
+            {{/someCollScan}}
+            {{/requestGroups}}
+        </script>
     </body>
 </html>

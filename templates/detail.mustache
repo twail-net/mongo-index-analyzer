@@ -18,11 +18,17 @@
             <br />
             Occurrence: <span class="timestamp">{{lastOccurrence}}</span>, &nbsp;&nbsp;&nbsp; <span class="timestamp">{{firstOccurrence}}</span>
             <br />
-            <input type="checkbox" disabled {{#containsCollScan}}checked="checked"{{/containsCollScan}} /> Contains COLLSCAN
+            <input id="collscancb" type="checkbox" disabled {{#allCollScan}}checked="checked"{{/allCollScan}} /> Contains COLLSCAN
         </p>
         {{#requests}}
         <hr />
         <pre>{{raw}}</pre>
         {{/requests}}
+
+        <script>
+            {{#someCollScan}}
+            document.getElementById("collscancb").indeterminate = true
+            {{/someCollScan}}
+        </script>
     </body>
 </html>
