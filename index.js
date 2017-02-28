@@ -116,7 +116,7 @@ class Request {
     }
 
     get score() {
-        return (this.nreturned || 0) - this.docsExamined
+        return (this.nreturned || this.nMatched || 0) - this.docsExamined
     }
 
     get ts() {
