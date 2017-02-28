@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Index Stats / {{collection}}</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
@@ -12,12 +14,13 @@
             <br />
             <b>Range: [{{minScore}}, {{maxScore}}]</b>
             <br />
-            Occurrence: <span class="timestamp">{{lastOccurrence}}</span>, <span class="timestamp">{{firstOccurrence}}</span>
-
-            {{#requests}}
-            <hr />
-            <pre>{{raw}}</pre>
-            {{/requests}}
+            Occurrence: <span class="timestamp">{{lastOccurrence}}</span>, &nbsp;&nbsp;&nbsp; <span class="timestamp">{{firstOccurrence}}</span>
+            <br />
+            <input type="checkbox" disabled {{#containsCollScan}}checked="checked"{{/containsCollScan}} /> Contains COLLSCAN
         </p>
+        {{#requests}}
+        <hr />
+        <pre>{{raw}}</pre>
+        {{/requests}}
     </body>
 </html>

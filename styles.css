@@ -33,3 +33,7 @@
 .medianScore {
     color: green;
 }
+
+.timestamp {
+    font-style: italic;
+}

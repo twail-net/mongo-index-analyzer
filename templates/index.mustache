@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Index Stats</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
@@ -9,18 +11,22 @@
             <thead>
                 <tr>
                     <th scope="col">Request Group</th>
+                    <th scope="col">Filter Attrs</th>
                     <th scope="col">Last Occurrence</th>
                     <th scope="col">Avg Score</th>
                     <th scope="col">Median Score</th>
+                    <th scope="col">COLLSCAN</th>
                 </tr>
             </thead>
             <tbody>
                 {{#requestGroups}}
                 <tr>
                     <td><a href="{{queryHash}}.html">{{collection}}</a></td>
+                    <td>{{filterAttrs}}</td>
                     <td class="timestamp">{{lastOccurrence}}</td>
                     <td class="avgScore">{{avgScore}}</td>
                     <td class="medianScore">{{medianScore}}</td>
+                    <td><input type="checkbox" disabled {{#containsCollScan}}checked{{/containsCollScan}} /></td>
                 </tr>
                 {{/requestGroups}}
             </tbody>

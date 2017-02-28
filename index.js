@@ -41,6 +41,21 @@ class Request {
         this.qHash = null
     }
 
+    get filterAttrs() {
+        let q;
+        if (this.json.op === "query") {
+            q = this.json.query.filter
+        } else if (this.json.op === "command") {
+            q = this.json.command.query
+        } else if (this.json.op === "update") {
+            q = this.json.query
+        } else {
+            return "";
+        }
+
+        return Object.keys(q).sort().join(", ")
+    }
+
     get queryHash() {
         if (this.qHash) {
             return this.qHash
@@ -95,6 +110,19 @@ class Request {
     get ts() {
         return this.json.ts;
     }
+
+    get containsCollScan() {
+        let stage = this.json.execStats
+
+        while (stage) {
+            if (stage.stage === "COLLSCAN") {
+                return true
+            }
+            stage = stage.inputStage
+        }
+
+        return false
+    }
 }
 
 class RequestGroup {
@@ -104,6 +132,10 @@ class RequestGroup {
 
     push(r) {
         this.requests.push(r)
+    }
+
+    get filterAttrs() {
+        return this.requests[0].filterAttrs
     }
 
     get avgScore() {
@@ -136,6 +168,10 @@ class RequestGroup {
 
     get firstOccurrence() {
         return _.min(this.requests.map(r => r.ts));
+    }
+
+    get containsCollScan() {
+        return _.some(this.requests, r => r.containsCollScan)
     }
 }
 
