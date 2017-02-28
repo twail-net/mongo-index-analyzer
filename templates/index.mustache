@@ -5,12 +5,25 @@
     </head>
     <body>
         <h1>Index Stats</h1>
-        <ul>
-            {{#requestGroups}}
-            <li>
-                <a href="{{queryHash}}.html">{{collection}}</a> (<span class="avgScore">{{avgScore}}</span>, <span class="medianScore">{{medianScore}}</span>)
-            </li>
-            {{/requestGroups}}
-        </ul>
+        <table class="hor-minimalist-b">
+            <thead>
+                <tr>
+                    <th scope="col">Request Group</th>
+                    <th scope="col">Last Occurrence</th>
+                    <th scope="col">Avg Score</th>
+                    <th scope="col">Median Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#requestGroups}}
+                <tr>
+                    <td><a href="{{queryHash}}.html">{{collection}}</a></td>
+                    <td class="timestamp">{{lastOccurrence}}</td>
+                    <td class="avgScore">{{avgScore}}</td>
+                    <td class="medianScore">{{medianScore}}</td>
+                </tr>
+                {{/requestGroups}}
+            </tbody>
+        </table>
     </body>
 </html>

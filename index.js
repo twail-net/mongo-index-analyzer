@@ -64,9 +64,6 @@ class Request {
             this.qHash += (i++)
             return this.qHash
         }
-        
-        
-        
 
         return this.qHash
     }
@@ -93,6 +90,10 @@ class Request {
 
     get score() {
         return (this.nreturned || 0) - this.docsExamined
+    }
+
+    get ts() {
+        return this.json.ts;
     }
 }
 
@@ -127,6 +128,14 @@ class RequestGroup {
 
     get collection() {
         return this.requests[0].collection
+    }
+
+    get lastOccurrence() {
+        return _.max(this.requests.map(r => r.ts));
+    }
+
+    get firstOccurrence() {
+        return _.min(this.requests.map(r => r.ts));
     }
 }
 

@@ -6,14 +6,18 @@
     <body>
         <h1>Detail: {{collection}}</h1>
         <p>
-        <b>Average Score: <span class="avgScore">{{avgScore}}</span></b>
-        <br />
-        <b>Median Score: <span class="medianScore">{{medianScore}}</span></b>
-        <br />
-        <b>Range: [{{minScore}}, {{maxScore}}]</b>
-        {{#requests}}
-        <hr />
-        <pre>{{raw}}</p>
-        {{/requests}}
+            <b>Average Score: <span class="avgScore">{{avgScore}}</span></b>
+            <br />
+            <b>Median Score: <span class="medianScore">{{medianScore}}</span></b>
+            <br />
+            <b>Range: [{{minScore}}, {{maxScore}}]</b>
+            <br />
+            Occurrence: <span class="timestamp">{{lastOccurrence}}</span>, <span class="timestamp">{{firstOccurrence}}</span>
+
+            {{#requests}}
+            <hr />
+            <pre>{{raw}}</pre>
+            {{/requests}}
+        </p>
     </body>
 </html>
