@@ -258,7 +258,8 @@ MongoClient.connect(DB_URL).then((db) => {
     fs.writeFileSync(OUT_DIR + "/styles.css", fs.readFileSync(__dirname + "/styles.css"))
 
     console.log();
-    console.log(`Open: sensible-browser file://${path.resolve(idxFile)}`)
+    console.log(`Open:`);
+    console.log(`sensible-browser file://${path.resolve(idxFile)}`);
 }).then(() => {
     console.log("Finished.");
     process.exit(0)
