@@ -44,7 +44,7 @@ class Request {
     get filterAttrs() {
         let q;
         if (this.json.op === "query") {
-            q = this.json.query.filter
+            q = this.json.query.$query
         } else if (this.json.op === "command") {
             q = this.json.command.query
         } else if (this.json.op === "update") {
@@ -65,11 +65,11 @@ class Request {
 
         if (this.json.op === "query") {
             const q = this.json.query;
-            for (const k in q.sort) {
-                this.qHash += k + q.sort[k]
+            for (const k in q.orderby) {
+                this.qHash += k + q.orderby[k]
             }
 
-            const h = hashQuery(q.filter);
+            const h = hashQuery(q.$query);
 
             // dashboard requests without a filter
             if (h === "") {
@@ -104,7 +104,7 @@ class Request {
     }
 
     get docsExamined() {
-        return this.json.docsExamined
+        return this.json.nscanned
     }
 
     get collection() {
